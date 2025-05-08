@@ -1,3 +1,4 @@
+using EmployeeManagement.Web.Services;
 using EmployeeWebApi.Models.Repositories;
 using EmployeeWebAPI.Models;
 using EmployeeWebAPI.Models.Repositories;
@@ -17,7 +18,19 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+builder.Services.AddHttpClient<IEmployeeService, EmployeeService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7084/");
+});
+
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
