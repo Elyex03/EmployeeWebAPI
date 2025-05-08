@@ -9,21 +9,22 @@ namespace EmployeeWebApi.Models.Repositories
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly AppDbContext appDbContext;
 
         public DepartmentRepository(AppDbContext appDbContext)
         {
-            _appDbContext = appDbContext;
+            this.appDbContext = appDbContext;
         }
 
-        public Department GetDepartment(int departmentId)
+        public async Task<Department> GetDepartment(int departmentId)
         {
-            return _appDbContext.Departments.FirstOrDefault(d => d.DepartmentId == departmentId);
+            return await appDbContext.Departments
+                .FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
         }
 
-        public IEnumerable<Department> GetDepartments()
+        public async Task<IEnumerable<Department>> GetDepartments()
         {
-            return _appDbContext.Departments;
+            return await appDbContext.Departments.ToListAsync();
         }
     }
 }

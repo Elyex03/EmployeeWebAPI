@@ -12,6 +12,17 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri("https://localhost:7084/")
 });
 
+builder.Services.AddHttpClient<IEmployeeService, EmployeeService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7084/");
+});
+
+builder.Services.AddHttpClient<IDepartmentService, DepartmentService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7084/");
+});
+
+
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 await builder.Build().RunAsync();
